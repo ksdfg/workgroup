@@ -32,8 +32,8 @@ func Run(fns []func() interface{}) interface{} {
 	defer cancel()
 
 	// Run all functions in goroutines
-	for index, fn := range fns {
-		go func(fn func() interface{}, output chan<- interface{}, index int) {
+	for _, fn := range fns {
+		go func(fn func() interface{}, output chan<- interface{}) {
 			// Reduce delta of wait group by 1 when execution of goroutine is done or cancelled.
 			defer wg.Done()
 
@@ -51,7 +51,7 @@ func Run(fns []func() interface{}) interface{} {
 					cancel()
 				}
 			}
-		}(fn, output, index)
+		}(fn, output)
 	}
 
 	// Wait for all goroutines to end execution.
