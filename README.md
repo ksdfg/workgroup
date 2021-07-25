@@ -1,6 +1,7 @@
 # Workgroup
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ksdfg/workgroup/Test?style=flat)
+[![Go Reference](https://pkg.go.dev/badge/github.com/ksdfg/workgroup.svg)](https://pkg.go.dev/github.com/ksdfg/workgroup)
 
 A small utility to manage the lifetime of a set of related goroutines.
 
