@@ -1,5 +1,6 @@
 # Workgroup
 
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/ksdfg/workgroup)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ksdfg/workgroup/Test?style=flat)
 [![Go Reference](https://pkg.go.dev/badge/github.com/ksdfg/workgroup.svg)](https://pkg.go.dev/github.com/ksdfg/workgroup)
 
