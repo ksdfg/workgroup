@@ -13,7 +13,7 @@ Run will execute all functions in the slice passed to it in individual goroutine
 Run blocks until all the goroutines spawned have ended execution.
 The first function to return a non-nil value will trigger the end of execution of all other goroutines spawned.
 The return value from the first function will be returned to the caller of Run.
-If all none of the functions return a non-nil value, all the spawned goroutines will naturally end execution and
+If none of the functions return a non-nil value, all the spawned goroutines will naturally end execution and
 Run will return nil.
 */
 func Run(fns []func() interface{}) interface{} {
@@ -72,7 +72,7 @@ RunTemplate blocks until all the goroutines spawned have ended execution.
 Each goroutine will pass an index to the template function which it can use to execute accordingly.
 The first function to return a non-nil value will trigger the end of execution of all other goroutines spawned.
 The return value from the first function will be returned to the caller of RunTemplate.
-If all none of the functions return a non-nil value, all the spawned goroutines will naturally end execution and
+If none of the functions return a non-nil value, all the spawned goroutines will naturally end execution and
 RunTemplate will return nil.
 */
 func RunTemplate(n int, template func(int) interface{}) interface{} {
