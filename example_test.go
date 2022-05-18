@@ -31,8 +31,8 @@ func ExampleRun() {
 		)
 	}
 
-	// Call Run to search for keywords parallelly
-	output := workgroup.Run(fns)
+	// Call Run to search for keywords in parallel
+	output := workgroup.Run(fns, 3)
 	fmt.Println(output, "found")
 	// Output:
 	// goroutine found
@@ -43,7 +43,7 @@ func ExampleRunTemplate() {
 	phrase := "A small utility to manage the lifetime of a set of related goroutines."
 	keywords := []string{"function", "variable", "slice", "goroutine", "package"}
 
-	// Call RunTemplate to search for keywords parallelly
+	// Call RunTemplate to search for keywords in parallel
 	// Pass number of keywords as n
 	// In the template function, check if the ith keyword is a substring in the phrase
 	// Return the keyword if it is found

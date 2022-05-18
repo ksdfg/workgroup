@@ -13,7 +13,7 @@ Tests for Run
 
 func TestRunEmptySlice(t *testing.T) {
 	var slice []func() interface{}
-	output := workgroup.Run(slice)
+	output := workgroup.Run(slice, 3)
 	if output != nil {
 		t.Fatalf("expected: %v\ngot: %v", nil, output)
 	}
@@ -38,7 +38,7 @@ func TestRunSearchSubstringSuccess(t *testing.T) {
 		)
 	}
 
-	output := workgroup.Run(fns)
+	output := workgroup.Run(fns, 3)
 	if output != "cat" {
 		t.Fatalf("expected: cat\ngot: %v", output)
 	}
@@ -63,7 +63,7 @@ func TestRunSearchSubstringFailure(t *testing.T) {
 		)
 	}
 
-	output := workgroup.Run(fns)
+	output := workgroup.Run(fns, 3)
 	if output != nil {
 		t.Fatalf("expected: %v\ngot: %v", nil, output)
 	}
@@ -88,7 +88,7 @@ func TestRunSearchSubstringSuccessMany(t *testing.T) {
 		)
 	}
 
-	output := workgroup.Run(fns)
+	output := workgroup.Run(fns, 3)
 	if output != "cat" && output != "meow" {
 		t.Fatalf("expected: 'cat' or 'meow'\ngot: %v", output)
 	}
