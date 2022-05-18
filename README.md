@@ -55,7 +55,7 @@ import (
 	"github.com/ksdfg/workgroup"
 )
 
-// Search for substrings parallelly
+// Search for substrings in parallel
 func main() {
 	// Declare phrase and keywords to search in phrase
 	phrase := "A small utility to manage the lifetime of a set of related goroutines."
@@ -80,8 +80,8 @@ func main() {
 		)
 	}
 
-	// Call Run to search for keywords parallelly
-	output := workgroup.Run(fns)
+	// Call Run to search for keywords in parallel, with a maximum of 3 goroutines running at a time
+	output := workgroup.Run(fns, 3)
 	fmt.Println(output, "found")
 }
 ```
@@ -98,13 +98,13 @@ import (
 	"github.com/ksdfg/workgroup"
 )
 
-// Search for substrings parallelly
+// Search for substrings in parallel
 func main() {
 	// Declare phrase and keywords to search in phrase
 	phrase := "A small utility to manage the lifetime of a set of related goroutines."
 	keywords := []string{"function", "variable", "slice", "goroutine", "package"}
 
-	// Call RunTemplate to search for keywords parallelly
+	// Call RunTemplate to search for keywords in parallel, with a maximum of 3 goroutines running at a time
 	// Pass number of keywords as n
 	// In the template function, check if the ith keyword is a substring in the phrase
 	// Return the keyword if it is found
@@ -118,6 +118,7 @@ func main() {
 			}
 			return k
 		},
+		3,
 	)
 	fmt.Println(output, "found")
 }
