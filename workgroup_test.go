@@ -104,6 +104,7 @@ func TestRunTemplateEmptySlice(t *testing.T) {
 		func(_ int) interface{} {
 			return nil
 		},
+		3,
 	)
 	if output != nil {
 		t.Fatalf("expected: %v\ngot: %v", nil, output)
@@ -123,6 +124,7 @@ func TestRunTemplateSearchSubstringSuccess(t *testing.T) {
 			}
 			return k
 		},
+		3,
 	)
 	if output != "cat" {
 		t.Fatalf("expected: cat\ngot: %v", output)
@@ -142,6 +144,7 @@ func TestRunTemplateSearchSubstringFailure(t *testing.T) {
 			}
 			return k
 		},
+		3,
 	)
 	if output != nil {
 		t.Fatalf("expected: %v\ngot: %v", nil, output)
@@ -161,6 +164,7 @@ func TestRunTemplateSearchSubstringSuccessMany(t *testing.T) {
 			}
 			return k
 		},
+		3,
 	)
 	if output != "cat" && output != "meow" {
 		t.Fatalf("expected: 'cat' or 'meow'\ngot: %v", output)

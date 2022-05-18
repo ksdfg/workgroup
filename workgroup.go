@@ -85,46 +85,55 @@ The return value from the first function will be returned to the caller of RunTe
 If none of the functions return a non-nil value, all the spawned goroutines will naturally end execution and
 RunTemplate will return nil.
 */
-func RunTemplate(n int, template func(int) interface{}) interface{} {
+func RunTemplate(n int, template func(int) interface{}, maxParallelGoroutines int) interface{} {
 	// Make channel to receive output from the goroutines.
 	// We're using a channel instead of setting a variable to ensure that the first value returned by a goroutine
 	// is what this function returns.
 	output := make(chan interface{}, 1)
 	defer close(output)
 
-	// Make a wait group and set delta to number of times the template function needs to be run.
-	var wg sync.WaitGroup
-	wg.Add(n)
-
-	// Make a context with cancel to stop all other goroutines once a function ends it's execution.
+	// Make a context with cancel to stop all other goroutines once a function ends its execution.
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	// Run the template function n number of times in individual goroutines.
-	for i := 0; i < n; i++ {
-		go func(fn func(int) interface{}, output chan<- interface{}, index int) {
-			// Reduce delta of wait group by 1 when execution of goroutine is done or cancelled.
-			defer wg.Done()
+	for i := 0; i < n; i += maxParallelGoroutines {
+		// Calculate bounds for inner for loop to start batch of goroutines
+		start := i
+		end := i + maxParallelGoroutines
+		if end > n {
+			end = n
+		}
 
-			select {
-			// End execution when cancel is called by another goroutine.
-			case <-ctx.Done():
-				return
+		// Make a wait group and set delta to number of times the template function needs to be run.
+		var wg sync.WaitGroup
+		wg.Add(end - start)
 
-			// If cancel has not been called, run the template function and pass index.
-			default:
-				op := fn(index)
-				// If returned value is not nil, send output to channel.
-				if op != nil {
-					output <- op
-					cancel()
+		// Run the template function n number of times in individual goroutines.
+		for j := start; j < end; j++ {
+			go func(fn func(int) interface{}, output chan<- interface{}, index int) {
+				// Reduce delta of wait group by 1 when execution of goroutine is done or cancelled.
+				defer wg.Done()
+
+				select {
+				// End execution when cancel is called by another goroutine.
+				case <-ctx.Done():
+					return
+
+				// If cancel has not been called, run the template function and pass index.
+				default:
+					op := fn(index)
+					// If returned value is not nil, send output to channel.
+					if op != nil {
+						output <- op
+						cancel()
+					}
 				}
-			}
-		}(template, output, i)
-	}
+			}(template, output, j)
+		}
 
-	// Wait for all goroutines to end execution.
-	wg.Wait()
+		// Wait for all goroutines to end execution.
+		wg.Wait()
+	}
 
 	// Return output from first function to end execution.
 	// If no output has been sent to channel, return nil.

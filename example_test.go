@@ -57,6 +57,7 @@ func ExampleRunTemplate() {
 			}
 			return k
 		},
+		3,
 	)
 	fmt.Println(output, "found")
 	// Output:
