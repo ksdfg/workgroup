@@ -65,15 +65,15 @@ func Run(fns []func() interface{}, maxParallelGoroutines int) interface{} {
 
 		// Wait for all goroutines to end execution.
 		wg.Wait()
+
+		// Return output from first function to end execution.
+		if len(output) > 0 {
+			return <-output
+		}
 	}
 
-	// Return output from first function to end execution.
 	// If no output has been sent to channel, return nil.
-	if len(output) > 0 {
-		return <-output
-	} else {
-		return nil
-	}
+	return nil
 }
 
 /*
@@ -133,13 +133,13 @@ func RunTemplate(n int, template func(int) interface{}, maxParallelGoroutines in
 
 		// Wait for all goroutines to end execution.
 		wg.Wait()
+
+		// Return output from first function to end execution.
+		if len(output) > 0 {
+			return <-output
+		}
 	}
 
-	// Return output from first function to end execution.
 	// If no output has been sent to channel, return nil.
-	if len(output) > 0 {
-		return <-output
-	} else {
-		return nil
-	}
+	return nil
 }
