@@ -21,7 +21,7 @@ func TestRunEmptySlice(t *testing.T) {
 
 func TestRunSearchSubstringSuccess(t *testing.T) {
 	phrase := "Neko-chan the cat goes meow."
-	keywords := []string{"dog", "camel", "horse", "cat", "wolf", "fox", "tiger"}
+	keywords := []string{"dog", "camel", "horse", "wolf", "fox", "tiger", "cat"}
 
 	var fns []func() interface{}
 	for _, keyword := range keywords {

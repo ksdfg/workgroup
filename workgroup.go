@@ -28,12 +28,12 @@ func Run(fns []func() interface{}, maxParallelGoroutines int) interface{} {
 	defer cancel()
 
 	// Run functions in batches according to max parallel goroutines specified in arguments
-	for i := 0; i < len(fns)-1; i += maxParallelGoroutines {
+	for i := 0; i < len(fns); i += maxParallelGoroutines {
 		// Calculate indexes to slice the functions array
 		start := i
 		end := i + maxParallelGoroutines
-		if end >= len(fns) {
-			end = len(fns) - 1
+		if end > len(fns) {
+			end = len(fns)
 		}
 
 		// Make a wait group and set delta to number of functions to run.
