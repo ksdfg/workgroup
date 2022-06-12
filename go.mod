@@ -1,3 +1,3 @@
-module workgroup
+module github.com/ksdfg/workgroup
 
 go 1.16

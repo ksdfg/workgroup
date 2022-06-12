@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"workgroup"
+	"github.com/ksdfg/workgroup"
 )
 
 /*
@@ -13,7 +13,7 @@ Tests for Run
 
 func TestRunEmptySlice(t *testing.T) {
 	var slice []func() interface{}
-	output := workgroup.Run(slice)
+	output := workgroup.Run(slice, 3)
 	if output != nil {
 		t.Fatalf("expected: %v\ngot: %v", nil, output)
 	}
@@ -21,7 +21,7 @@ func TestRunEmptySlice(t *testing.T) {
 
 func TestRunSearchSubstringSuccess(t *testing.T) {
 	phrase := "Neko-chan the cat goes meow."
-	keywords := []string{"dog", "camel", "horse", "cat", "wolf", "fox", "tiger"}
+	keywords := []string{"dog", "camel", "horse", "wolf", "fox", "tiger", "cat"}
 
 	var fns []func() interface{}
 	for _, keyword := range keywords {
@@ -38,7 +38,7 @@ func TestRunSearchSubstringSuccess(t *testing.T) {
 		)
 	}
 
-	output := workgroup.Run(fns)
+	output := workgroup.Run(fns, 3)
 	if output != "cat" {
 		t.Fatalf("expected: cat\ngot: %v", output)
 	}
@@ -63,7 +63,7 @@ func TestRunSearchSubstringFailure(t *testing.T) {
 		)
 	}
 
-	output := workgroup.Run(fns)
+	output := workgroup.Run(fns, 3)
 	if output != nil {
 		t.Fatalf("expected: %v\ngot: %v", nil, output)
 	}
@@ -88,7 +88,7 @@ func TestRunSearchSubstringSuccessMany(t *testing.T) {
 		)
 	}
 
-	output := workgroup.Run(fns)
+	output := workgroup.Run(fns, 3)
 	if output != "cat" && output != "meow" {
 		t.Fatalf("expected: 'cat' or 'meow'\ngot: %v", output)
 	}
@@ -104,6 +104,7 @@ func TestRunTemplateEmptySlice(t *testing.T) {
 		func(_ int) interface{} {
 			return nil
 		},
+		3,
 	)
 	if output != nil {
 		t.Fatalf("expected: %v\ngot: %v", nil, output)
@@ -123,6 +124,7 @@ func TestRunTemplateSearchSubstringSuccess(t *testing.T) {
 			}
 			return k
 		},
+		3,
 	)
 	if output != "cat" {
 		t.Fatalf("expected: cat\ngot: %v", output)
@@ -142,6 +144,7 @@ func TestRunTemplateSearchSubstringFailure(t *testing.T) {
 			}
 			return k
 		},
+		3,
 	)
 	if output != nil {
 		t.Fatalf("expected: %v\ngot: %v", nil, output)
@@ -161,6 +164,7 @@ func TestRunTemplateSearchSubstringSuccessMany(t *testing.T) {
 			}
 			return k
 		},
+		3,
 	)
 	if output != "cat" && output != "meow" {
 		t.Fatalf("expected: 'cat' or 'meow'\ngot: %v", output)
