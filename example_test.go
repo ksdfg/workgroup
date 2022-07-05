@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ksdfg/workgroup"
+	"github.com/ksdfg/workgroup/v2"
 )
 
 func ExampleRun() {

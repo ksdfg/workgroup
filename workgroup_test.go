@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ksdfg/workgroup"
+	"github.com/ksdfg/workgroup/v2"
 )
 
 /*
