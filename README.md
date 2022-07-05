@@ -9,7 +9,7 @@ A small utility to manage the lifetime of a set of related goroutines.
 ## Installation
 
 ```shell
-$ go get -v github.com/ksdfg/workgroup
+$ go get -v github.com/ksdfg/workgroup/v2
 ```
 
 ## Functions
@@ -17,10 +17,11 @@ $ go get -v github.com/ksdfg/workgroup
 ### Run
 
 ```go
-func Run(fns []func () interface{}) interface{}
+func Run(fns []func () interface{}, maxParallelGoroutines int) interface{}
 ```
 
 - Run will execute all functions in the slice passed to it in individual goroutines.
+- Goroutines are created in batches, never exceeding max parallel goroutines value passed as input.
 - Run blocks until all the goroutines spawned have ended execution.
 - The first function to return a non-nil value will trigger the end of execution of all other goroutines spawned.
 - The return value from the first function will be returned to the caller of Run.
@@ -30,10 +31,11 @@ func Run(fns []func () interface{}) interface{}
 ### RunTemplate
 
 ```go
-func RunTemplate(n int, template func (int) interface{}) interface{}
+func RunTemplate(n int, template func (int) interface{}, maxParallelGoroutines int) interface{}
 ```
 
 - RunTemplate will execute a given template function n no. of times in individual goroutines.
+- Goroutines are created in batches, never exceeding max parallel goroutines value passed as input.
 - RunTemplate blocks until all the goroutines spawned have ended execution.
 - Each goroutine will pass an index to the template function which it can use to execute accordingly.
 - The first function to return a non-nil value will trigger the end of execution of all other goroutines spawned.
@@ -52,7 +54,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ksdfg/workgroup"
+	"github.com/ksdfg/workgroup/v2"
 )
 
 // Search for substrings in parallel
@@ -94,8 +96,8 @@ package main
 import (
 	"fmt"
 	"strings"
-
-	"github.com/ksdfg/workgroup"
+	
+	"github.com/ksdfg/workgroup/v2"
 )
 
 // Search for substrings in parallel
